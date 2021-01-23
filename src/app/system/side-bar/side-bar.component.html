@@ -1,0 +1,16 @@
+<div class="d-flex" id="wrapper">
+    <div class="bg-light border-right" id="sidebar-wrapper">
+        <div class="list-group list-group-flush">
+            <a  routerLink="detail" routerLinkActive="router-link-active"  class="list-group-item list-group-item-action bg-light">System
+                Details</a>
+            <a routerLink="servers" routerLinkActive="router-link-active" queryParamsHandling="preserve" class="list-group-item list-group-item-action bg-light">Servers</a>
+            <a routerLink="instances"  routerLinkActive="router-link-active" queryParamsHandling="preserve" class="list-group-item list-group-item-action bg-light">Instances</a>
+            <a routerLink="chart"  routerLinkActive="router-link-active" queryParamsHandling="preserve" class="list-group-item list-group-item-action bg-light">charts</a>
+            <a routerLink="api"  routerLinkActive="router-link-active"  queryParamsHandling="preserve" class="list-group-item list-group-item-action bg-light">API</a>
+            <a routerLink="users"  routerLinkActive="router-link-active" queryParamsHandling="preserve" class="list-group-item list-group-item-action bg-light">Users</a>
+        </div>
+    </div>
+    <router-outlet></router-outlet>
+    
+
+</div>

@@ -1,0 +1,102 @@
+<div [formGroup]="forms">
+    <div [formArrayName]="childParams.name">
+        {{childParams.description}}
+        <div class="col-sm-10" *ngFor="let cont of getControls(childParams.name);  let i = index ">
+            <div [formGroupName]="i" style="border: 1px solid blue; padding: 10px; width: 600px; margin: 5px;">
+                <div *ngFor="let params of paramData">
+                    <div *ngIf="params.type !== 'Object'">
+                        <label [for]="params.name">{{params.description}}</label>
+                        <div class="col-sm-10">
+                            <input [id]="params.name" type="text" class="form-control form-control-sm"
+                                [formControlName]="params.name" [placeholder]="params.description" />
+                        </div>
+                    </div>
+                    <div *ngIf="params.type === 'Object'">
+                        {{params.name}}:
+                        <div [formGroupName]="params.name" *ngFor="let item of getListOfData(params.name)">
+                            <div *ngIf="item.type !== 'Object';else objectBlock">
+                                <label [for]="item.name">{{item.description}}</label>
+                                <div class="col-sm-10">
+                                    <input [id]="item.name" type="text" class="form-control form-control-sm"
+                                        [formControlName]="item.name" [placeholder]="item.description" />
+                                </div>
+                            </div>
+                            <ng-template #objectBlock>
+                                {{item.name}} :
+                                <div [formGroupName]="item.name" *ngFor="let childItem of getListOfData(item.name)">
+                                    <label [for]="childItem.name">{{childItem.description}}</label>
+                                    <div class="col-sm-10">
+                                        <input [id]="childItem.name" type="text" class="form-control form-control-sm"
+                                            [formControlName]="childItem.name" [placeholder]="childItem.description" />
+                                    </div>
+                                </div>
+                            </ng-template>
+                        </div>
+                       <!-- <app-types [forms]="forms" [childName]="params.name" [childParams]="childParams"></app-types>-->
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <button type="button" class="btn btn-info" *ngIf="childParams.editable"
+            (click)="addArrayValue(childParams.name)"> add</button>
+    </div>
+</div>
+<!-- <tr *ngFor="let app of typeParam; let i = index ;odd as isOdd; even as isEven">
+    <fieldset class="form-group">
+        <td scope="row">
+            <label for="colFormLabel" class="col-sm-2 col-form-label">{{app.displayName |
+                titlecase }} </label>
+        </td>
+        <td>
+            <div *ngIf="app.type === 'text' || app.type === 'number' " class="col-sm-10">
+                <input type="text" class="form-control" [(ngModel)]="app.value" name="{{app.name}}" id="{{app.name}}"
+                    placeholder="{{app.description}}" (change)="checkRestart(app,i)">
+            </div>
+            <div *ngIf="app.type === 'ArrayInt' || app.type === 'ArrayString'" class="col-xm-10">
+                <div *ngFor="let val of app.value" class="container">
+                    <div class="row col-xs-12">
+                        <input type="text" class="form-control" name="{{app.name}}" id="{{app.name}}" [(ngModel)]="app.value"
+                            placeholder="{{app.description}}"  (change)="checkRestart(app,i)">
+                    </div>
+                </div>
+                <button class="btn btn-primary" (click)="addValue(app)">add</button>
+            </div>
+            
+             <div *ngIf="app.type === 'Object'" class="row">
+                <div *ngFor="let val of getValues(app)" class="container col-xm-12">
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <p>
+                                {{val.displayName}}
+                            </p>
+                        </div>
+                        <div class=" col-xs-12">
+                            <input type="text" class="form-control" name="{{val.name}}"
+                                id="{{val.name}}" placeholder="{{val.description}}"
+                                [(ngModel)]="val.value" (change)="checkRestart(val,i)">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div *ngIf="app.type === 'Array'" class="row">
+                <div *ngFor="let val of getValues(app)" class="container col-xm-12">
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <p>
+                                {{val.displayName}}
+                            </p>
+                        </div>
+                        <div class=" col-xs-12">
+                            <input type="text" class="form-control" name="{{val.name}}"
+                                id="{{val.name}}" placeholder="{{val.description}}"
+                                [(ngModel)]="val.value" (change)="checkRestart(val,i)">
+                        </div>
+                    </div>
+                </div>
+                <button class="btn btn-primary" (click)="addValue(app)">add</button>
+            </div> 
+    </fieldset>
+
+</tr> -->

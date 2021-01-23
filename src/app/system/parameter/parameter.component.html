@@ -1,0 +1,96 @@
+<div id="page-content-wrapper">
+    <div class="container-fluid">
+        <h1 class="mt-4">Servers Configuration Details</h1>
+        <div class="form-group row">
+            <div class="container">
+                <div class="alert alert-warning" *ngIf="appForm.dirty && appForm.invalid"> Enter valid values
+                </div>
+                <!-- <div class="alert alert-warning" *ngIf="appForm.status === ''"> {{restartValidation}} </div> -->
+            </div>
+            <div class="container" *ngIf="appConfig">
+                <form [formGroup]="appForm" (ngSubmit)="onSubmit()">
+                    <div class="form-group row" *ngFor="let params of appConfig.mainParams">
+                        <label for="params.name">{{params.description}}</label>
+                        <div class="col-sm-10">
+                            <input [id]="params.name" type="text" class="form-control form-control-sm"
+                                [formControlName]="params.name" [placeholder]="params.description" />
+                        </div>
+                    </div>
+                    <div class="form-group row" *ngFor="let params of appConfig.arrayPrimitiveParams">
+                        <div [formArrayName]="params.name">
+                            <label [for]="params.name">{{params.description}}</label>
+                            <div class="col-sm-10" *ngFor="let cont of getControls(params.name);let i = index">
+                                <input [id]="params.name" type="text" class="form-control form-control-sm"
+                                    [formControlName]="i" [placeholder]="params.description" />
+                            </div>
+                            <button type="button" class="btn btn-info" *ngIf="params.editable"
+                                (click)="addOneMoreValue(params.name)"> add</button>
+                        </div>
+                    </div>
+                    <div class="form-group row" *ngFor="let params of appConfig.arrayObjectParams">
+                        <div class="container" *ngIf="params.type === 'Array'; else nonArray">
+                            <app-types [forms]="appForm" [childName]="params.arrayElementType" [childParams]="params">
+                            </app-types>
+                        </div>
+                        <ng-template #nonArray>
+                            <div [formGroupName]="params.name"
+                                style="border: 1px solid greenyellow; padding: 10px; width: 600px; margin: 5px;">
+                                {{params.name}}
+                                <div *ngFor="let objecyParam of getListOfData(params.arrayElementType)">
+                                    <div *ngIf="objecyParam.type !== 'Object'">
+                                        <label [for]="objecyParam.name">{{objecyParam.description}}</label>
+                                        <div class="col-sm-10">
+                                            <input [id]="objecyParam.name" type="text" class="form-control form-control-sm"
+                                                [formControlName]="objecyParam.name" [placeholder]="objecyParam.description" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </ng-template>
+                    </div>
+                    <!-- <app-parameter [mainParam] ="appConfig.mainParameters" [types]="appConfig.types"  (restartEvent)="checkRestartValue($event)"></app-parameter> -->
+                    <button type="submit" class="btn btn-success"> Save </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- <table class="table table-striped">
+    <tbody>
+        <tr *ngFor="let app of mainParam; let i = index">
+            <fieldset class="form-group">
+                <td>
+                    <label for="colFormLabel" class="col-sm-2 col-form-label">{{app.displayName |
+                        titlecase }} </label>
+                </td>
+                <td>
+                    <div *ngIf="app.type === 'text' || app.type === 'number' " class="col-sm-10">
+                        <input type="text" class="form-control" [(ngModel)]="app.value" name="{{app.name}}"
+                            id="{{app.name}}" placeholder="{{app.description}}" (change)="checkRestart(app,i)">
+                    </div>
+                    <div *ngIf="app.type === 'ArrayInt' || app.type === 'ArrayString'" class="col-xm-10">
+                        <div *ngFor="let val of app.value; let in = index" class="container">
+                            <div class="row col-xs-12">
+                                <input type="text" class="form-control" name="{{app.name}}" id="{{app.name}}"
+                                    [(ngModel)]="app.value[in]" placeholder="{{app.description}}"
+                                    (change)="checkRestart(app,i)">
+                            </div>
+                        </div>
+                        <button class="btn btn-primary" (click)="addValue(app)">add</button>
+                    </div>
+                    <div *ngIf="app.type === 'Object' || app.type === 'Array'" class="row">
+                        <div *ngFor="let item of getValues(app) ;odd as isOdd; even as isEven"
+                             [class.isEven]="isEven"
+                            [class.isOdd]="isOdd">
+                            <app-types [typeParam]="item"></app-types>
+
+                        </div>
+                        <div *ngIf="app.type === 'Array'">
+                            <button class="btn btn.primary" (click)="addNewApp(app)">Add</button>
+                        </div>
+                    </div>
+                </td>
+            </fieldset>
+        </tr>
+    </tbody>
+</table> -->

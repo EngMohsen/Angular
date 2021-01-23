@@ -1,0 +1,10 @@
+<h3> Login </h3>
+
+<div class="container-fluid">
+    <small class="alert alert-warning" *ngIf="invalidLogin">{{errorMessage}}</small>
+    <div class="login">
+        Username : <input type="text" name="userName" placeholder="Username" [(ngModel)]="userName"><br> <br>
+        Password : <input type="password" name="password" placeholder="password" [(ngModel)]="password"><br>
+        <button (click)=loginUser() class="btn btn-success">login</button>
+    </div>
+</div>

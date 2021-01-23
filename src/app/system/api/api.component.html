@@ -1,0 +1,72 @@
+<h3>
+    {{systemName}} Api
+</h3>
+<div class="container">
+    <table class="table table-striped" style="margin-bottom: 5rem;" *ngFor="let api of apiList ; let i = index">
+        <thead>
+            <tr>
+                <th scope="col">Name</th>
+                <th scope="col" colspan="3">{{api.name}}</th>
+                <th scope="col"></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <th scope="row">Description</th>
+                <td colspan="3">{{api.description}}</td>
+            </tr>
+            <tr>
+                <th scope="row">Url</th>
+                <td colspan="3">{{api.url}}</td>
+            </tr>
+            <tr>
+                <th scope="row">methodType</th>
+                <td colspan="3">{{api.methodType}}</td>
+            </tr>
+            <tr>
+                <th scope="row">userName</th>
+                <td colspan="3">{{api.userName}}</td>
+            </tr>
+            <tr>
+                <th scope="row">password</th>
+                <td colspan="3">{{api.password}}</td>
+            </tr>
+           
+            <tr>
+                <th scope="row" *ngIf="api.requestParams">RequestParams</th>
+                <td colspan="3">
+                    <div class="row" *ngFor="let reqPrams of api.requestParams | keyvalue;let i = index">
+                        <label [for]="reqPrams.key">{{reqPrams.key}} : </label>
+                        <input type="text" [id]="reqPrams.key"
+                        [ngModel]="requestParams.get(reqPrams.key)"
+                        (ngModelChange)="requestParams.set(reqPrams.key, $event)" />
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <th scope="row">Request Headers</th>
+                <td colspan="3">
+                    <ul>
+                        <li *ngFor="let header of api.requestHeaders | keyvalue">
+                            {{header.key}} : {{header.value}}
+                        </li>
+
+                    </ul>
+                </td>
+            </tr>
+            <tr *ngIf="api.methodType === 'POST'">
+                <th scope="row">Request Body:</th>
+                <td colspan="3"> <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" style="height: 200px;" [(ngModel)]="api.requestBody"></textarea></td>
+            </tr>
+            <tr *ngIf="api.response">
+                <th scope="row">Response :</th>
+                <td colspan="3">
+                    <span class="alert alert-warning">{{api.response}}</span>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="4"> <button class="btn btn-info" (click)="sendRequest(i)"> send </button></td>
+            </tr>
+        </tbody>
+    </table>
+</div>

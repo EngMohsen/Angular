@@ -1,0 +1,26 @@
+<p>in instance component</p>
+
+ <div  id="page-content-wrapper">
+    <div class="container-fluid">
+        <h1 class="mt-4">Instances Details</h1>
+
+        <table *ngFor='let instance of instances' class="table table-warning">
+            <thead>
+                <tr>
+                    <th scope="col">Property Name</th>
+                    <th scope="col">value</th>
+                </tr>
+            </thead>
+            <tbody>
+
+                <tr *ngFor='let pair of instance | keyvalue'>
+                    <th scope="row">{{pair.key | titlecase }}</th>
+                    <td *ngIf="pair.value; else elseBlock"> {{pair.value}}</td>
+                    <ng-template #elseBlock>
+                        <td> N/A </td>
+                    </ng-template>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div> 
